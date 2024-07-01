@@ -18,6 +18,7 @@ program
   .option('--contract <address>', 'Contract address')
   .option('--rescan <rescan>', 'Enable rescan feature', (value) => value === 'true');
 
+program.parse(process.argv);
 const options = program.opts();
 
 const eventNames: string[] = options.events
