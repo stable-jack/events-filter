@@ -1,0 +1,40 @@
+{
+  "name": "evm-event-tracker",
+  "author": {
+    "name": "Deniz Umut Dereli",
+    "email": "deniz.umut.dereli@gmail.com"},
+  "version": "1.0.0",
+  "description": "EVM event tracker using TypeScript, PostgreSQL, and Redis",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "typeorm": "typeorm-ts-node-commonjs"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.0.3",
+    "ethers": "^6.7.1",
+    "inquirer": "^9.3.1",
+    "pg": "^8.10.0",
+    "redis": "^3.1.2",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.15",
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "winston-syslog": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^18.15.11",
+    "@types/redis": "^2.8.32",
+    "@types/winston-syslog": "^2.4.3",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
