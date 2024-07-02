@@ -1,19 +1,21 @@
-import Redis from 'redis';
-import { DataSource } from 'typeorm';
-import { promisify } from 'util';
-import { config } from './config/config';
-import { Event } from './entities/Event';
-import { logger } from './logger/logger';
-import { EventTracker } from './services/EventTracker';
+import Redis from "redis";
+import { DataSource } from "typeorm";
+import { promisify } from "util";
+import { config } from "./config/config";
+import { Event } from "./entities/Event";
+import { logger } from "./logger/logger";
+import { EventTracker } from "./services/EventTracker";
 
 async function getLatestBlockFromDb(dataSource: DataSource): Promise<number> {
-  const latestBlock = await dataSource.query(`SELECT MAX("blockNumber") AS "latestBlock" FROM event`);
+  const latestBlock = await dataSource.query(
+    `SELECT MAX("blockNumber") AS "latestBlock" FROM event`,
+  );
   return latestBlock[0].latestBlock || config.startBlockNumber;
 }
 
 async function main() {
   const dataSource = new DataSource({
-    type: 'postgres',
+    type: "postgres",
     host: config.database.host,
     port: config.database.port,
     username: config.database.username,
@@ -24,7 +26,7 @@ async function main() {
   });
 
   await dataSource.initialize();
-  logger.debug('Database connection established');
+  logger.debug("Database connection established");
 
   const redisClient = Redis.createClient({
     host: config.redis.host,
@@ -35,7 +37,9 @@ async function main() {
   const currentBlock = await getLatestBlockFromDb(dataSource);
 
   if (config.startBlockNumber > currentBlock) {
-    console.error(`Configured start block number ${config.startBlockNumber} is bigger than the latest processed block ${currentBlock}. Aborting.`);
+    console.error(
+      `Configured start block number ${config.startBlockNumber} is bigger than the latest processed block ${currentBlock}. Aborting.`,
+    );
     process.exit(1);
   } else {
     config.startBlockNumber = currentBlock;
@@ -43,20 +47,20 @@ async function main() {
 
   const eventTracker = new EventTracker(dataSource, config.pollIntervalMs);
   await eventTracker.initialize();
-  logger.debug('Event tracker initialized');
+  logger.debug("Event tracker initialized");
 
   // graceful shutdown
-  process.on('SIGINT', async () => {
-    logger.debug('Stopping event tracker...');
+  process.on("SIGINT", async () => {
+    logger.debug("Stopping event tracker...");
     eventTracker.stop();
     await dataSource.destroy();
     redisClient.quit();
-    logger.debug('Database connection closed');
+    logger.debug("Database connection closed");
     process.exit(0);
   });
 }
 
 main().catch((error) => {
-  console.error('Error:', error);
+  console.error("Error:", error);
   process.exit(1);
 });
