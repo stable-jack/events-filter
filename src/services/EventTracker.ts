@@ -181,10 +181,22 @@ export class EventTracker {
         newEvent.parsedData = JSON.stringify(parsedLog.args, (key, value) =>
           typeof value === "bigint" ? value.toString() : value,
         );
+
+        if (parsedLog.args.length > 2) {
+          newEvent.sender = parsedLog.args[0]; // Access 'from' directly
+          newEvent.receiver = parsedLog.args[1]; // Access 'to' directly
+          newEvent.amountTransferred = parsedLog.args[2].toString(); // Access 'amount' directly
+        } else {
+          console.log(
+            "Error: Expected at least three elements in parsedLog.args",
+          );
+        }
       } else {
         newEvent.eventName = "UnknownEvent";
       }
-      const eventSignature = allContractEvents.find(event => event.name === newEvent.eventName)?.signature || 'UnknownSignature';
+      const eventSignature =
+        allContractEvents.find((event) => event.name === newEvent.eventName)
+          ?.signature || "UnknownSignature";
       newEvent.eventSignature = eventSignature;
       newEvent.eventSignatureHash = log.topics[0];
       newEvent.eventData = log.data;

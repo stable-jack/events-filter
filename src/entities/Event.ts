@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity()
 @Index(["transactionHash", "logIndex"], { unique: true })
@@ -31,11 +37,20 @@ export class Event {
   parsedData: string;
 
   @Column()
+  sender: string;
+
+  @Column()
+  receiver: string;
+
+  @Column()
+  amountTransferred: string;
+
+  @Column()
   contractAddress: string;
 
   @Column()
   appName: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: "timestamp" })
   createdAt: Date;
 }
