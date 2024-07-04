@@ -12,6 +12,9 @@ export class Event {
   @Column()
   eventSignature: string;
 
+  @Column()
+  eventSignatureHash: string;
+
   @Column({ type: "text" })
   eventData: string;
 

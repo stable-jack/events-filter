@@ -6,6 +6,7 @@ import { logger } from '../logger/logger';
 export interface EventDefinition {
   name: string;
   signature: string;
+  parameters: string;
 }
 
 interface AbiInput {
@@ -24,7 +25,7 @@ interface AbiEvent {
 const abiPath = config.contract.abiPath;
 const abiContent = fs.readFileSync(abiPath, 'utf8');
 const abiJson = JSON.parse(abiContent);
-const abi: AbiEvent[] = JSON.parse(abiJson.result); 
+const abi: AbiEvent[] = JSON.parse(abiJson.result);
 
 const extractEventsFromAbi = (abi: AbiEvent[]): EventDefinition[] => {
   return abi
@@ -32,6 +33,7 @@ const extractEventsFromAbi = (abi: AbiEvent[]): EventDefinition[] => {
     .map(event => ({
       name: event.name,
       signature: `${event.name}(${event.inputs.map((input: AbiInput) => input.type).join(',')})`,
+      parameters: event.inputs.map(input => input.name).join(', ')
     }));
 };
 
@@ -55,8 +57,5 @@ export const contractEvents = filteredEvents;
 
 export const eventSignatures = generateEventSignatures(contractEvents);
 
-logger.info(`Filtered contract events: ${JSON.stringify(contractEvents)}`);
-logger.info(`Event signatures: ${JSON.stringify(eventSignatures)}`);
-
-
-
+logger.info(`Filtered contract events: ${JSON.stringify(contractEvents, null, 2)}`);
+logger.info(`Event signatures: ${JSON.stringify(eventSignatures, null, 2)}`);

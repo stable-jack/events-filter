@@ -5,7 +5,7 @@ import { DataSource, Repository } from "typeorm";
 import { promisify } from "util";
 import { config } from "../config/config";
 import { Event } from "../entities/Event";
-import { eventSignatures } from "../events/contractEvents";
+import { allContractEvents, eventSignatures } from "../events/contractEvents";
 import { logger } from "../logger/logger";
 
 export class EventTracker {
@@ -184,7 +184,9 @@ export class EventTracker {
       } else {
         newEvent.eventName = "UnknownEvent";
       }
-      newEvent.eventSignature = log.topics[0];
+      const eventSignature = allContractEvents.find(event => event.name === newEvent.eventName)?.signature || 'UnknownSignature';
+      newEvent.eventSignature = eventSignature;
+      newEvent.eventSignatureHash = log.topics[0];
       newEvent.eventData = log.data;
       newEvent.blockNumber = log.blockNumber;
       newEvent.transactionHash = log.transactionHash;
