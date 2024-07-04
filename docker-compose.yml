@@ -33,6 +33,23 @@ services:
     networks:
       - mynetwork
 
+  metabase:
+    image: metabase/metabase:v0.45.1
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: ${METABASE_DBNAME}
+      MB_DB_PORT: ${DB_PORT}
+      MB_DB_USER: ${DB_USERNAME}
+      MB_DB_PASS: ${DB_PASSWORD}
+      MB_DB_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - mynetwork
+
 volumes:
   postgres_data:
   redis_data:
