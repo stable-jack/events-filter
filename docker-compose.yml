@@ -34,7 +34,7 @@ services:
       - mynetwork
 
   metabase:
-    image: metabase/metabase:latest
+    image: metabase/metabase:v0.45.1
     ports:
       - "3000:3000"
     environment:
