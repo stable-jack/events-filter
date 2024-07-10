@@ -51,7 +51,7 @@ services:
   #     - mynetwork
 
 volumes:
-  postgres_data:
+  # postgres_data:
   redis_data:
 
 networks:
