@@ -1,23 +1,23 @@
 version: "3.8"
 
 services:
-  postgres:
-    image: postgres:14
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "${DB_PORT}:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - mynetwork
+  # postgres:
+  #   image: postgres:14
+  #   environment:
+  #     POSTGRES_DB: ${DB_NAME}
+  #     POSTGRES_USER: ${DB_USERNAME}
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "${DB_PORT}:5432"
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #   networks:
+  #     - mynetwork
 
   redis:
     image: redis:6
@@ -33,22 +33,22 @@ services:
     networks:
       - mynetwork
 
-  metabase:
-    image: metabase/metabase:v0.45.1
-    ports:
-      - "3000:3000"
-    environment:
-      MB_DB_TYPE: postgres
-      MB_DB_DBNAME: ${METABASE_DBNAME}
-      MB_DB_PORT: ${DB_PORT}
-      MB_DB_USER: ${DB_USERNAME}
-      MB_DB_PASS: ${DB_PASSWORD}
-      MB_DB_HOST: postgres
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - mynetwork
+  # metabase:
+  #   image: metabase/metabase:v0.45.1
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     MB_DB_TYPE: postgres
+  #     MB_DB_DBNAME: ${METABASE_DBNAME}
+  #     MB_DB_PORT: ${DB_PORT}
+  #     MB_DB_USER: ${DB_USERNAME}
+  #     MB_DB_PASS: ${DB_PASSWORD}
+  #     MB_DB_HOST: postgres
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - mynetwork
 
 volumes:
   postgres_data:
