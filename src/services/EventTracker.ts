@@ -178,13 +178,15 @@ export class EventTracker {
       const newEvent = new Event();
       if (parsedLog) {
         newEvent.eventName = parsedLog.name;
-        newEvent.parsedData = JSON.stringify(parsedLog.args, (key, value) =>
+        newEvent.parsedData = JSON.stringify(parsedLog.args, (_, value) =>
           typeof value === "bigint" ? value.toString() : value,
         );
       } else {
         newEvent.eventName = "UnknownEvent";
       }
-      const eventSignature = allContractEvents.find(event => event.name === newEvent.eventName)?.signature || 'UnknownSignature';
+      const eventSignature =
+        allContractEvents.find((event) => event.name === newEvent.eventName)
+          ?.signature || "UnknownSignature";
       newEvent.eventSignature = eventSignature;
       newEvent.eventSignatureHash = log.topics[0];
       newEvent.eventData = log.data;
