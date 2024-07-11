@@ -8,7 +8,7 @@ import { EventTracker } from "./services/EventTracker";
 
 async function getLatestBlockFromDb(dataSource: DataSource): Promise<number> {
   const latestBlock = await dataSource.query(
-    `SELECT MAX("blockNumber") AS "latestBlock" FROM event`,
+    `SELECT MAX("blockNumber") AS "latestBlock" FROM event WHERE "appName" = '${config.appName}'`,
   );
   return latestBlock[0].latestBlock || config.startBlockNumber;
 }
