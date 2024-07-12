@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity()
 @Index(["transactionHash", "logIndex"], { unique: true })
@@ -27,7 +33,7 @@ export class Event {
   @Column()
   logIndex: number;
 
-  @Column({ type: "jsonb", nullable: true })
+  @Column({ type: "text", nullable: true })
   parsedData: string;
 
   @Column()
@@ -36,6 +42,6 @@ export class Event {
   @Column()
   appName: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: "timestamp" })
   createdAt: Date;
 }
