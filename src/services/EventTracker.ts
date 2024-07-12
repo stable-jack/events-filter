@@ -178,7 +178,7 @@ export class EventTracker {
       const newEvent = new Event();
       if (parsedLog) {
         newEvent.eventName = parsedLog.name;
-        newEvent.parsedData = JSON.stringify(parsedLog.args, (_, value) =>
+        newEvent.parsedData = parsedLog.args.map((value) =>
           typeof value === "bigint" ? value.toString() : value,
         );
       } else {
