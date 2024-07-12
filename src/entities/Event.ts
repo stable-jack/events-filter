@@ -33,8 +33,8 @@ export class Event {
   @Column()
   logIndex: number;
 
-  @Column({ type: "text", nullable: true })
-  parsedData: string;
+  @Column("text", { array: true, nullable: true })
+  parsedData: string[];
 
   @Column()
   contractAddress: string;
