@@ -33,7 +33,7 @@ async function main() {
     port: config.redis.port,
   });
 
-  const redisGetAsync = promisify(redisClient.get).bind(redisClient);
+  await promisify(redisClient.get).bind(redisClient);
   const currentBlock = await getLatestBlockFromDb(dataSource);
 
   if (config.startBlockNumber > currentBlock) {
