@@ -45,9 +45,6 @@ async function main() {
     config.startBlockNumber = currentBlock;
   }
 
-  console.log("Hawk Tuah", config.startBlockNumber);
-  return;
-
   const eventTracker = new EventTracker(dataSource, config.pollIntervalMs);
   await eventTracker.initialize();
   logger.debug("Event tracker initialized");
