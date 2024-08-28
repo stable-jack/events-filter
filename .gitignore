@@ -10,3 +10,24 @@ logs
 package-lock.json
 
 dist
+.DS_Store
+src/.DS_Store
+
+# Editor directories
+# -----------------
+# .idea
+# .vscode
+# .vs
+# _site
+# .jekyll-cache
+# .jekyll-metadata
+# .sass-cache
+# .grunt
+# .cache
+# .tmp
+# .babel-cache
+# .tern-port
+# .sublime-project
+# .sublime-workspace
+# .c9project
+# .c9revisions
