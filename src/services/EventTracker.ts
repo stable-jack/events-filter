@@ -23,7 +23,7 @@ export class EventTracker {
   constructor(
     private dataSource: DataSource,
     private pollIntervalMs: number = 60000,
-    private rescanIntervalMs: number = 600000,
+    // private rescanIntervalMs: number = 600000,
   ) {
     this.provider = new ethers.JsonRpcProvider(config.contract.rpcUrl);
     this.eventRepository = this.dataSource.getRepository(Event);
@@ -63,7 +63,7 @@ export class EventTracker {
     await this.collectPastEvents();
     this.startListening();
     this.startPolling();
-    config.rescan ? this.startRescanning() : null;
+    // config.rescan ? this.startRescanning() : null;
     console.log("EventTracker initialized successfully.");
   }
 
@@ -127,25 +127,25 @@ export class EventTracker {
     }, this.pollIntervalMs);
   }
 
-  private startRescanning() {
-    console.log(`Starting rescan interval (${this.rescanIntervalMs}ms)`);
-    this.rescanInterval = setInterval(async () => {
-      try {
-        // const latestBlock = await this.provider.getBlockNumber();
-        const rescanBlockRange = 100;
-        const fromBlock = Math.max(
-          this.latestProcessedBlock - rescanBlockRange,
-          0,
-        );
-        console.log(
-          `Rescanning: Processing blocks ${fromBlock} to ${this.latestProcessedBlock}`,
-        );
-        await this.processBlockRange(fromBlock, this.latestProcessedBlock);
-      } catch (error) {
-        logger.error("Error during rescanning:", error);
-      }
-    }, this.rescanIntervalMs);
-  }
+  // private startRescanning() {
+  //   console.log(`Starting rescan interval (${this.rescanIntervalMs}ms)`);
+  //   this.rescanInterval = setInterval(async () => {
+  //     try {
+  //       // const latestBlock = await this.provider.getBlockNumber();
+  //       const rescanBlockRange = 100;
+  //       const fromBlock = Math.max(
+  //         this.latestProcessedBlock - rescanBlockRange,
+  //         0,
+  //       );
+  //       console.log(
+  //         `Rescanning: Processing blocks ${fromBlock} to ${this.latestProcessedBlock}`,
+  //       );
+  //       await this.processBlockRange(fromBlock, this.latestProcessedBlock);
+  //     } catch (error) {
+  //       logger.error("Error during rescanning:", error);
+  //     }
+  //   }, this.rescanIntervalMs);
+  // }
 
   private async processBlockRange(fromBlock: number, toBlock: number) {
     const filter = { ...this.filter, fromBlock, toBlock };
